@@ -20,37 +20,58 @@ import {
   ModalHeader,
 } from '@chakra-ui/react';
 import { RiDeleteBin7Fill } from 'react-icons/ri'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromPlaylist, updateprofilepic } from '../../Redux/actions/profile';
+import { cancelSubscription, loadUser } from '../../Redux/actions/user';
 
-const Profile = () => {
-  const user = {
-    name: 'Aritra Sarkar',
-    email: 'aritra@gmail.com',
-    createdAt: String(new Date().toISOString()),
-    role: 'user',
-    subscription: {
-      status: 'active',
-    },
-    playlist: [
-      {
-        course: 'something',
-        poster: 'another',
-      },
-    ],
-  };
+const Profile = ({user}) => {
 
+  const dispatch = useDispatch();
+  const { loading, message, error } = useSelector(state=>state.profile);
+  const { loading:subscriptionLoading, message:subscriptionMessage, error:subscriptionError } = useSelector(state=>state.profile);
 
   const removeFromPlaylistHandler = (id) => {
-    console.log('ui ma')
+  dispatch(removeFromPlaylist(id))
   };
 
- const changeImageSubmitHandler = (e, image) =>{
+ const changeImageSubmitHandler = async (e, image) =>{
   e.preventDefault();
-  console.log(image)
- }
+  const myForm = new FormData();
+  myForm.append('file', image);
+  await dispatch(updateprofilepic(myForm));
+  dispatch(loadUser());
+  console.log("ok");
+ };
 
-  const { isOpen,onClose,onOpen } = useDisclosure()
+ useEffect (()=> {
+  if (error) {
+    toast.error(error);
+    dispatch({ type: 'clearError' });
+  }
+  if (message) {
+    toast.success(message);
+    dispatch({ type: 'clearMessage' });
+  }
+  if(subscriptionError){
+    toast.error(error);
+    dispatch({ type: 'clearError' });
+  }
+  if(subscriptionMessage) {
+    toast.success(message);
+    dispatch({ type: 'clearMessage' });
+    dispatch(loadUser());
+  }
+}, [dispatch,error,message,subscriptionMessage,subscriptionError]);
+
+
+  const { isOpen,onClose,onOpen } = useDisclosure();
+
+  const cancelSubmitHandler = () => {
+    dispatch(cancelSubscription());
+  }
 
   return (
     <Container h={'95vh'} maxW="container.lg" py="8">
@@ -64,8 +85,8 @@ const Profile = () => {
         padding={'8'}
       >
         <VStack>
-          <Avatar boxSize={'48'} />
-          <Button onClick={onOpen} colorScheme="red" variant="ghost" children="Change Photo" />
+          <Avatar src={user.avatar.url} boxSize={'48'} />
+          <Button isLoading={loading} onClick={onOpen} colorScheme="red" variant="ghost" children="Change Photo" />
         </VStack>
 
         <VStack spacing={'4'} alignItems={['center', 'flex-start']}>
@@ -87,8 +108,8 @@ const Profile = () => {
           {user.role !== 'admin' && (
             <HStack>
               <Text children="Subscription" fontWeight="bold" />
-              {user.subscription.status === 'active' ? (
-                <Button color={'red.500'} variant={'unstyled'}>
+              {user.subscription && user.subscription.status === 'active' ? (
+                <Button isLoading={loading} onClick={cancelSubmitHandler} color={'red.500'} variant={'unstyled'}>
                   Cancel Subscription
                 </Button>
               ) : (

@@ -13,14 +13,17 @@ import {
 import { AiOutlineMenu } from 'react-icons/ai';
 import { RiDashboardFill, RiLogoutBoxLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../Redux/actions/user';
 
-const Header = () => {
+const Header = ({isAuthenticated,user}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const IsAuthenticated = true;
-  const user = {
-    role: 'admin'
-  }
+  const dispatch = useDispatch();
+  const logoutHandler = () => {
+    onClose();
+    dispatch(logout());
+  };
 
   const LinkButton = ({ url, title }, onClose) => (
     <Link to={url}>
@@ -57,7 +60,7 @@ const Header = () => {
               <LinkButton url="/about" title="About Us" />
             </VStack>
             <HStack position={'absolute'} bottom={'2rem'} justifyContent={'space-evenly'} width={'80%'}>
-              {IsAuthenticated?
+              {isAuthenticated?
               (<VStack>
               <HStack justifyContent={'space-evenly'}>
               <Link to='/profile'>
@@ -65,7 +68,7 @@ const Header = () => {
                 Profile
               </Button>
               </Link>
-              <Button onClick={onClose} >
+              <Button onClick={logoutHandler} >
                 <RiLogoutBoxLine/>
                 Sign out
               </Button>

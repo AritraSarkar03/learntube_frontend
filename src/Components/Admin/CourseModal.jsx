@@ -26,7 +26,8 @@ const CourseModal = ({
   deleteButtonhandler,
   addLectureHandler,
   courseTitle,
-  lectures = [1,2,3,4,5,6,7,8,9],
+  lectures = [],
+  loading
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -76,12 +77,13 @@ const CourseModal = ({
               lectures.map((item,i) => (
                 <VideoCard
                 key={i}
-                title={'React intro'}
-                description={'An introductory lecture'}
+                title={item.title}
+                description={item.description}
                 num={i + 1}
-                lectureId={'dfgdgfghf'}
-                courseId={'id'}
+                lectureId={item._id}
+                courseId={id}
                 deleteButtonhandler={deleteButtonhandler}
+                isLoading={loading}
               />
               ))
              }
@@ -132,7 +134,7 @@ const CourseModal = ({
                     ></video>
                   )}
 
-                  <Button w={'full'} colorScheme='orange' type='submit' >Upload</Button>
+                  <Button w={'full'} colorScheme='orange' type='submit' isLoading={loading} >Upload</Button>
 
 
                 </VStack>
@@ -157,6 +159,7 @@ function VideoCard({
   lectureId,
   courseId,
   deleteButtonhandler,
+  loading
 }) {
   return (
     <Stack
@@ -174,7 +177,8 @@ function VideoCard({
 
       <Button
         color={'orange.600'}
-        onClick={() => deleteButtonhandler(courseId)}
+        onClick={() => deleteButtonhandler(courseId, lectureId)}
+        isLoading={loading} 
       >
         <RiDeleteBin7Line />
       </Button>

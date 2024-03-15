@@ -1,88 +1,76 @@
 import { Grid, Box, Heading, Text, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import exVid from '../Assets/videos/exVid.mp4';
+import { useDispatch,useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getCourseLectures } from '../Redux/actions/course';
+import { Navigate } from "react-router-dom";
+import Loader from '../Components/Layout/Loader';
 
-const CoursePage = () => {
+// Import statements...
 
-  const [lectureNumber,setLectureNumber] = useState(0);
+const CoursePage = ({ user }) => {
+  const [lectureNumber, setLectureNumber] = useState(0);
+  const { lectures, loading } = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+  const params = useParams();
 
-  const lectures = [
-    {
-      _id: 'ysdgd',
-      title: 'sample',
-      description: "this is enough to make a grown man cry and that's okay",
-      video: {
-        url: 'somethimg',
-      },
-    },
-    {
-      _id: 'ysdgd',
-      title: 'sample8',
-      description: "this is enough to make a grown man cry and that's okay",
-      video: {
-        url: 'somethimg8',
-      },
-    },
-    {
-      _id: 'ysdgd',
-      title: 'sample9',
-      description: "this is enough to make a grown man cry and that's okay",
-      video: {
-        url: 'somethimg',
-      },
-    },
-    {
-      _id: 'ysdgd',
-      title: 'sample10',
-      description: "this is enough to make a grown man cry and that's okay",
-      video: {
-        url: 'somethimg',
-      },
-    },
-  ];
+  useEffect(() => {
+    dispatch(getCourseLectures(params.id));
+  }, [dispatch, params.id]);
+
+  if (user.role !== "admin" && (user.subscription === undefined || user.subscription.status !== "active")) {
+    return <Navigate to={"/subscribe"} />;
+  }
 
   return (
-    <Grid minH="90vh" templateColumns={['1fr', '3fr 1fr']}>
-      <Box>
-        <video
-          width={'100%'}
-          controls
-          controlsList="nodownload noremoteplayback"
-          disablePictureInPicture
-          disableRemotePlayback
-          src={exVid}
-        ></video>
+    loading ? <Loader /> : (
+      <Grid minH="90vh" templateColumns={['1fr', '3fr 1fr']}>
+        {lectures && lectures.length > 0 ? (
+          <>
+            <Box>
+              <video
+                width={'100%'}
+                controls
+                controlsList="nodownload noremoteplayback"
+                disablePictureInPicture
+                disableRemotePlayback
+                src={lectures[lectureNumber].video.url}
+              ></video>
 
-        <Heading
-          m="4"
-          children={`#${lectureNumber + 1} ${lectures[lectureNumber].title}`}
-        />
+              <Heading
+                m="4"
+                children={`#${lectureNumber + 1} ${lectures[lectureNumber].title}`}
+              />
 
-        <Heading m={'4'} children={lectures[lectureNumber].description} />
+              <Heading m={'4'} children={lectures[lectureNumber].description} />
 
-        <Text m="4" children="abol tabol kichhu akta" />
-      </Box>
+              <Text m="4" children="abol tabol kichhu akta" />
+            </Box>
 
-      <VStack>
-        {lectures.map((element, index) => (
-          <button
-          onClick={()=>setLectureNumber(index)}
-            key={element._id}
-            style={{
-              width: '100%',
-              padding: '1rem',
-              textAlign: 'center',
-              margin: '0',
-              borderBottom: '1px solid rgba(0,0,0,0.2)',
-            }}
-          >
-            <Text noOfLines={1}>
-              #{index + 1} {element.title}
-            </Text>
-          </button>
-        ))}
-      </VStack>
-    </Grid>
+            <VStack>
+              {lectures.map((element, index) => (
+                <button
+                  onClick={() => setLectureNumber(index)}
+                  key={element._id}
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    textAlign: 'center',
+                    margin: '0',
+                    borderBottom: '1px solid rgba(0,0,0,0.2)',
+                  }}
+                >
+                  <Text noOfLines={1}>
+                    #{index + 1} {element.title}
+                  </Text>
+                </button>
+              ))}
+            </VStack>
+          </>
+        ) : <Heading children='No Lectures' />}
+      </Grid>
+    )
   );
 };
 

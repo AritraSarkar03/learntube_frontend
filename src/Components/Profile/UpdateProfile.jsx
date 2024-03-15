@@ -1,14 +1,30 @@
 import { Container, Heading, Input, VStack, Button } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { updateprofile } from '../../Redux/actions/profile';
+import { loadUser } from '../../Redux/actions/user';
+import { useDispatch, useSelector } from 'react-redux';
 
-const UpdateProfile = () => {
+const UpdateProfile = ({user}) => {
 
-  const [name,setName] = useState();
-  const [email,setEmail] = useState();
+  const [name,setName] = useState(user.name);
+  const [email,setEmail] = useState(user.email);
+
+  const navigate = useNavigate()
+  const dispatch = new useDispatch();
+  const submitHandler = async (e) => {
+    console.log("okkkkkkkkkkkkkkkk");
+    e.preventDefault();
+    await dispatch(updateprofile(name,email));
+    dispatch(loadUser());
+    navigate('/profile');
+  };
+
+  const {loading} = useSelector(state=>state.profile)
 
   return (
     <Container py={'16'} minH={'90vh'}>
-      <form>
+      <form onSubmit={submitHandler}>
         <Heading
           textTransform={'uppercase'}
           my={'16'}
@@ -16,7 +32,7 @@ const UpdateProfile = () => {
           children="Update Profile"
         />
 
-        <VStack spacing={'8'}>
+        <VStack spacing={'8'}> 
     
           <Input
             id="text"
@@ -31,12 +47,12 @@ const UpdateProfile = () => {
             required
             id="email"
             value={email}
-            onChange={e => setEmail(e.target.vale)}
+            onChange={e => setEmail(e.target.value)}
             placeholder={'Enter Email'}
             type="email"
             focusBorderColor="red.500"
           />
-   <Button w='full' colorScheme='red'>
+   <Button isLoading={loading}  w='full' colorScheme='red' type='submit'>
        Update Profile
    </Button>
         </VStack>
@@ -46,3 +62,5 @@ const UpdateProfile = () => {
 };
 
 export default UpdateProfile;
+
+

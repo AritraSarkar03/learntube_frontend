@@ -1,8 +1,11 @@
 import { Grid, Input, Container, Heading, VStack, Select, Image, Button } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import cursor from '../../../Assets/images/cursor.png';
 import Sidebar from '../Sidebar';
 import { fileUploadCss } from '../../Auth/Register';
+import { createCourse } from '../../../Redux/actions/admin';
+import { useDispatch,useSelector } from 'react-redux';
+import { toast } from 'react-hot-toast'
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
@@ -11,6 +14,9 @@ const CreateCourse = () => {
   const [category, setCategory] = useState('');
   const [imagePrev, setImgPrev] = useState();
   const [image, setImg] = useState();
+
+  const { loading,error,message } = useSelector(state=>state.admin);
+  const dispatch = useDispatch();
 
   const changeImageHandle = e => {
 
@@ -38,6 +44,31 @@ const CreateCourse = () => {
       'Cooking Basics'
   ]
 
+  useEffect(() => {
+    if(error) {
+      toast.error(error);
+      dispatch({ type: 'clearError' });
+    }
+    if(message) {
+      toast.success(message);
+      dispatch({ type: 'clearMessage' });
+    }
+}, [dispatch, error, message]);
+
+
+
+  const submitHandler = (e) =>{
+    e.preventDefault();
+    const myForm = new FormData();
+
+    myForm.append("title",title);
+    myForm.append("description",description);
+    myForm.append("category",category);
+    myForm.append("createdBy",createdBy);
+    myForm.append("file", image);
+    
+    dispatch(createCourse(myForm));
+  }
 
   return (
     <Grid
@@ -48,7 +79,7 @@ const CreateCourse = () => {
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Container py={'16'}>
-        <form>
+        <form onSubmit={submitHandler}>
           <Heading
             textTransform={'uppercase'}
             children="Create course"
@@ -107,7 +138,7 @@ const CreateCourse = () => {
   <Image src={imagePrev} boxSize='64' objectFit='contain' />
 )}
 
-<Button width={'full'} colorScheme='orange' type='submit' >Create</Button>
+<Button width={'full'} colorScheme='orange' type='submit' isLoading={loading} >Create</Button>
 
 
           </VStack>

@@ -7,10 +7,11 @@ import {
   Button,
   Box,
   Avatar,
-  Img,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { register } from '../../Redux/actions/user';
 
 export const fileUploadCss = {
   cursor: 'pointer',
@@ -27,22 +28,34 @@ const fileUploadStyle = {
 };
 
 const Register = () => {
-  const [user, setUser] = useState();
+  const [name,  setName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [imgPrev, setImgPrev] = useState();
   const [image, setImg] = useState();
-
+  
   const changeImageHandle = e => {
     const file = e.target.files[0];
     const reader = new FileReader();
-
+    
     reader.readAsDataURL(file);
-
+    
     reader.onloadend = () => {
       setImgPrev(reader.result);
       setImg(file);
     };
+  };
+  
+  const dispatch = new useDispatch();
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const myForm = new FormData();
+
+    myForm.append("name",name);
+    myForm.append("email",email);
+    myForm.append("password",password);
+    myForm.append("file", image);
+    dispatch(register(myForm));
   };
 
   return (
@@ -50,17 +63,17 @@ const Register = () => {
       <VStack h={'full'} justifyContent={'center'} spacing={'16'}>
         <Heading children={'Register to LearnTube'} />
 
-        <form style={{ width: '100%' }}>
+        <form style={{ width: '100%' }} onSubmit={submitHandler}>
           <Box my={'4'} display={'flex'} justifyContent={'center'}>
             <Avatar src={imgPrev} size={'2xl'} />
           </Box>
 
-          <FormLabel htmlFor="user" children={'Email Address'} />
+          <FormLabel htmlFor="name" children={'Name'} />
           <Input
             required
-            id="user"
-            value={user}
-            onChange={e => setUser(e.target.value)}
+            id="name"
+            value={name}
+            onChange={e =>  setName(e.target.value)}
             placeholder={'Enter your name'}
             type="text"
             focusBorderColor="red.500"
@@ -84,7 +97,7 @@ const Register = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder={'Enter a Password'}
-            type="email"
+            type="password"
             focusBorderColor="red.500"
           />
 
@@ -105,7 +118,7 @@ const Register = () => {
             Sign Up
           </Button>
           <Box>
-            Already a User?{' '}
+            Already a name?{' '}
             <Link to="/signin">
               <Button colorScheme="red" variant="link">
                 Sign in
