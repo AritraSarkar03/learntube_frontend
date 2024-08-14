@@ -13,7 +13,7 @@ const UpdateProfile = ({user}) => {
   const navigate = useNavigate()
   const dispatch = new useDispatch();
   const submitHandler = async (e) => {
-    console.log("okkkkkkkkkkkkkkkk");
+
     e.preventDefault();
     await dispatch(updateprofile(name,email));
     dispatch(loadUser());

@@ -162,7 +162,6 @@ function Row({ item, courseDetailHandler, deleteHandler,loading }) {
             variant="outline"
             color="orange.500"
             children="View Lectures"
-            isLoading={loading}
           />
           <Button onClick={() => deleteHandler(item._id)} color={'orange.600'}>
             <RiDeleteBin7Fill />
