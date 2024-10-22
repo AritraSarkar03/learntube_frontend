@@ -5,7 +5,7 @@ import { DiGithubBadge } from 'react-icons/di'
 
 const Footer = () => {
   return (
-    <Box bg={'blackAlpha.900'} padding={'4'} h={'10vh'}>
+    <Box bg={'blackAlpha.900'} padding={'0'} h={'10vh'}>
       <Stack direction={['column','row']} >
         <VStack alignItems={['center','flex-start']} width={'full'} >
             <Heading color={'white'} children={'AllRights Reserved'}/>

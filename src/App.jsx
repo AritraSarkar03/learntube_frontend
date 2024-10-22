@@ -45,7 +45,7 @@ function App() {
           dispatch({ type: 'clearError' });
         }
         if(message) {
-          toast.success(error);
+          toast.success(message);
           dispatch({ type: 'clearError' });
         }
   }, [dispatch, error, message]);
