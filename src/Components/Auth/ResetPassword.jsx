@@ -26,7 +26,7 @@ const ResetPassword = () => {
     if (message) {
       toast.success(message);
       dispatch({ type: 'profile/clearMessage' });
-      navigate('/login');
+      navigate('/signin');
     }
   }, [dispatch, error, message, navigate]);
 
@@ -45,7 +45,7 @@ const ResetPassword = () => {
           focusBorderColor='red.500'
         />
         <Button isLoading={loading} w={'full'} colorScheme='red' my={'4'} type='submit'>
-          Send Reset Link
+          Change Password
         </Button>
       </form>
     </Container>
