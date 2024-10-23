@@ -65,7 +65,7 @@ const Dashboard = () => {
     viewsCount,
     subscriptionPercentage,
     viewsPercentage,
-    userPercentage,
+    usersPercentage,
     subscriptionProfit,
     viewsProfit,
     usersProfit
@@ -108,7 +108,7 @@ const Dashboard = () => {
               justifyContent={'space-evenly'}
             >
               <Databox title="Views" qty={viewsCount} qtyPercentage={viewsPercentage} profit={viewsProfit} />
-              <Databox title="User" qty={usersCount} qtyPercentage={userPercentage} profit={usersProfit} />
+              <Databox title="User" qty={usersCount} qtyPercentage={usersPercentage} profit={usersProfit} />
               <Databox
                 title="Subscription"
                 qty={subscriptionCount}
@@ -147,7 +147,7 @@ const Dashboard = () => {
 
                 <Box>
                   <Bar profit={viewsProfit} title="Views" value={viewsPercentage} />
-                  <Bar profit={usersProfit} title="Users" value={userPercentage} />
+                  <Bar profit={usersProfit} title="Users" value={usersPercentage} />
                   <Bar profit={subscriptionProfit} title="Subscription" value={subscriptionPercentage} />
                 </Box>
 
