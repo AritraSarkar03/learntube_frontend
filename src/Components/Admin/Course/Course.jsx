@@ -81,7 +81,7 @@ const Course = () => {
       css={{
         cursor: `url(${cursor}), default`,
       }}
-      minH={'100vw'}
+      minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Box padding={['0', '8']} overflowX={'auto'}>
