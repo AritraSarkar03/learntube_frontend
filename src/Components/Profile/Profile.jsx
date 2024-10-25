@@ -64,18 +64,14 @@ const Profile = ({user}) => {
   myForm.append('file', image);
   await dispatch(updateprofilepic(myForm));
   dispatch(loadUser());
-  console.log("ok");
  };
-
-
-
 
   const cancelSubmitHandler = () => {
     dispatch(cancelSubscription());
   }
 
   return (
-    <Container h={'95vh'} maxW="container.lg" py="8">
+    <Container h={'100vh'} maxW="container.lg" py="8">
       <Heading children="Profile" m="8" textTransform={'uppercase'} />
 
       <Stack

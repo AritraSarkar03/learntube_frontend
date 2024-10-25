@@ -25,9 +25,9 @@ const Header = ({ isAuthenticated, user }) => {
     dispatch(logout());
   };
 
-  useEffect(() => {
-    if (!isAuthenticated) return <Navigate to="/signin" replace/>;
-  }, [isAuthenticated]);
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
 
   const LinkButton = ({ url, title }, onClose) => (
     <Link to={url}>
