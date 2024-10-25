@@ -12,12 +12,11 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { RiDashboardFill, RiLogoutBoxLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/actions/user';
 
-const Header = () => {
-  const { isAuthenticated, user } = useSelector(state => state.user);
+const Header = ({ isAuthenticated, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
@@ -25,6 +24,10 @@ const Header = () => {
     onClose();
     dispatch(logout());
   };
+
+  useEffect(() => {
+    if (!isAuthenticated) return <Navigate to="/signin" replace/>;
+  }, [isAuthenticated]);
 
   const LinkButton = ({ url, title }, onClose) => (
     <Link to={url}>
@@ -61,46 +64,46 @@ const Header = () => {
               <LinkButton url="/about" title="About Us" />
             </VStack>
             <HStack position={'absolute'} bottom={'2rem'} justifyContent={'space-evenly'} width={'80%'}>
-              {isAuthenticated?
-              (<VStack>
-              <HStack justifyContent={'space-evenly'}>
-              <Link to='/profile'>
-              <Button onClick={onClose}  colorScheme="red" variant="outline">
-                Profile
-              </Button>
-              </Link>
-              <Button onClick={logoutHandler} >
-                <RiLogoutBoxLine/>
-                Sign out
-              </Button>
-              </HStack>
+              {isAuthenticated ?
+                (<VStack>
+                  <HStack justifyContent={'space-evenly'}>
+                    <Link to='/profile'>
+                      <Button onClick={onClose} colorScheme="red" variant="outline">
+                        Profile
+                      </Button>
+                    </Link>
+                    <Button onClick={logoutHandler} >
+                      <RiLogoutBoxLine />
+                      Sign out
+                    </Button>
+                  </HStack>
 
-              { user && user.role === 'admin' && (
-                <Link to='/admin/dashboard'>
-                <Button onClick={onClose}  colorScheme="red" variant="ghost">
-                  <RiDashboardFill style={{margin:'4px'}}/>
-                  Dashboard
-                </Button>
-                </Link>
-              )}
-              </VStack>
-              ) : (
-                <>
-                <HStack>
-                <Link to='/signin'>
-                <Button onClick={onClose}  colorScheme="red" variant="outline">
-                  Sign in
-                </Button>
-                </Link>
-                <p>OR</p>
-                <Link to='/register'>
-                <Button onClick={onClose}  colorScheme="red" variant="outline">
-                  Sign up
-                </Button>
-                </Link>
-                </HStack>
-                </>
-              )
+                  {user && user.role === 'admin' && (
+                    <Link to='/admin/dashboard'>
+                      <Button onClick={onClose} colorScheme="red" variant="ghost">
+                        <RiDashboardFill style={{ margin: '4px' }} />
+                        Dashboard
+                      </Button>
+                    </Link>
+                  )}
+                </VStack>
+                ) : (
+                  <>
+                    <HStack>
+                      <Link to='/signin'>
+                        <Button onClick={onClose} colorScheme="red" variant="outline">
+                          Sign in
+                        </Button>
+                      </Link>
+                      <p>OR</p>
+                      <Link to='/register'>
+                        <Button onClick={onClose} colorScheme="red" variant="outline">
+                          Sign up
+                        </Button>
+                      </Link>
+                    </HStack>
+                  </>
+                )
               }
             </HStack>
           </DrawerBody>

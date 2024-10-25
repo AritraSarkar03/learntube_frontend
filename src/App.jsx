@@ -58,7 +58,7 @@ function App() {
       {
         loading ? (<Loader />) : (
           <>
-            <Header/>
+            <Header isAuthenticated={isAuthenticated} user={user}/>
             <Routes>
               <Route path='/' element={<Home />} />
 
