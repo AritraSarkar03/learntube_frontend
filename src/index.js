@@ -1,5 +1,5 @@
 import { ChakraProvider, ColorModeScript, extendTheme } from '@chakra-ui/react';
-import React, { StrictMode } from 'react';
+import React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { Provider as ReduxProvider } from 'react-redux';
 import App from './App';
@@ -26,12 +26,10 @@ const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
 
 root.render(
-  <StrictMode>
     <ReduxProvider store={store}>
       <ChakraProvider theme={customTheme}>
         <ColorModeScript />
         <App />
       </ChakraProvider>
     </ReduxProvider>
-  </StrictMode>
 );

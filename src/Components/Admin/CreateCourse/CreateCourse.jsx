@@ -6,6 +6,7 @@ import { fileUploadCss } from '../../Auth/Register';
 import { createCourse } from '../../../Redux/actions/admin';
 import { useDispatch,useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('');
@@ -14,6 +15,7 @@ const CreateCourse = () => {
   const [category, setCategory] = useState('');
   const [imagePrev, setImgPrev] = useState();
   const [image, setImg] = useState();
+  const navigate = useNavigate();
 
   const { loading,error,message } = useSelector(state=>state.admin);
   const dispatch = useDispatch();
@@ -52,6 +54,7 @@ const CreateCourse = () => {
     if(message) {
       toast.success(message);
       dispatch({ type: 'clearMessage' });
+      navigate('/admin/admincourses');
     }
 }, [dispatch, error, message]);
 

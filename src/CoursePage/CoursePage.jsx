@@ -1,6 +1,5 @@
 import { Grid, Box, Heading, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import exVid from '../Assets/videos/exVid.mp4';
 import { useDispatch,useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getCourseLectures } from '../Redux/actions/course';
@@ -14,10 +13,11 @@ const CoursePage = ({ user }) => {
   const { lectures, loading } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const params = useParams();
-
+  
   useEffect(() => {
     dispatch(getCourseLectures(params.id));
-  }, [dispatch, params.id]);
+    console.log('hi');
+  }, [params.id, dispatch]);
 
   if (user.role !== "admin" && (user.subscription === undefined || user.subscription.status !== "active")) {
     return <Navigate to={"/subscribe"} />;
@@ -42,10 +42,7 @@ const CoursePage = ({ user }) => {
                 m="4"
                 children={`#${lectureNumber + 1} ${lectures[lectureNumber].title}`}
               />
-
-              <Heading m={'4'} children={lectures[lectureNumber].description} />
-
-              <Text m="4" children="abol tabol kichhu akta" />
+              <Text m="4" children={lectures[lectureNumber].description} />
             </Box>
 
             <VStack>

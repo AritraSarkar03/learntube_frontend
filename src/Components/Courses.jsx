@@ -21,7 +21,7 @@ const Course = ({views,title,id,addToPlaylistHandler,ImgSrc,creator,description,
       <Heading fontSize='xs' children={`Views- ${views}`}/>
       <Stack direction={['column', 'row']} alignItems={'center'}>
         <Link to={`/courses/${id}`}>
-        <Button size={'sm'} children={'Watch NOW'} colorScheme='red' />
+        <Button size={'sm'} children={'Watch NOW'} colorScheme='red'/>
         </Link>
         <Button marginLeft={'6px'} size={'sm'} children={'Add to Playlist'} onClick={()=>{addToPlaylistHandler(id)}}/>
       </Stack>
@@ -35,7 +35,7 @@ const Courses = () => {
 
   const dispatch = useDispatch();
 
-  const {loading,course,error} = useSelector(state=>state.course)
+  const {course,error} = useSelector(state=>state.course)
 
   const addToPlaylistHandler = courseId => {
     dispatch(addToPlaylist(courseId))
@@ -59,7 +59,7 @@ const Courses = () => {
       toast.error(error);
       dispatch({ type: 'clearError' });
     }
-  }, [category,keyword,dispatch]);
+  }, [category,keyword,dispatch,error]);
 
   return (
     <Container minH={'95vh'} maxW={'container.lg'} paddingY={'10'}>

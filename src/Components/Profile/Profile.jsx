@@ -28,10 +28,31 @@ import { removeFromPlaylist, updateprofilepic } from '../../Redux/actions/profil
 import { cancelSubscription, loadUser } from '../../Redux/actions/user';
 
 const Profile = ({user}) => {
+  const { isOpen,onClose,onOpen } = useDisclosure();
 
   const dispatch = useDispatch();
   const { loading, message, error } = useSelector(state=>state.profile);
-  const { loading:subscriptionLoading, message:subscriptionMessage, error:subscriptionError } = useSelector(state=>state.profile);
+  const { message:subscriptionMessage, error:subscriptionError } = useSelector(state=>state.profile);
+
+  useEffect (()=> {
+   if (error) {
+     toast.error(error);
+     dispatch({ type: 'clearError' });
+   }
+   if (message) {
+     toast.success(message);
+     dispatch({ type: 'clearMessage' });
+   }
+   if(subscriptionError){
+     toast.error(error);
+     dispatch({ type: 'clearError' });
+   }
+   if(subscriptionMessage) {
+     toast.success(message);
+     dispatch({ type: 'clearMessage' });
+     dispatch(loadUser());
+   }
+ }, [dispatch,error,message,subscriptionMessage,subscriptionError]);
 
   const removeFromPlaylistHandler = (id) => {
   dispatch(removeFromPlaylist(id))
@@ -46,28 +67,8 @@ const Profile = ({user}) => {
   console.log("ok");
  };
 
- useEffect (()=> {
-  if (error) {
-    toast.error(error);
-    dispatch({ type: 'clearError' });
-  }
-  if (message) {
-    toast.success(message);
-    dispatch({ type: 'clearMessage' });
-  }
-  if(subscriptionError){
-    toast.error(error);
-    dispatch({ type: 'clearError' });
-  }
-  if(subscriptionMessage) {
-    toast.success(message);
-    dispatch({ type: 'clearMessage' });
-    dispatch(loadUser());
-  }
-}, [dispatch,error,message,subscriptionMessage,subscriptionError]);
 
 
-  const { isOpen,onClose,onOpen } = useDisclosure();
 
   const cancelSubmitHandler = () => {
     dispatch(cancelSubscription());

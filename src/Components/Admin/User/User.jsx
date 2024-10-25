@@ -12,7 +12,7 @@ const User = () => {
 
   const dispatch = useDispatch();
 
-  const { users, loading, error, message } = useSelector(state => state.admin);
+  const { user, loading, error, message } = useSelector(state => state.admin);
 
   useEffect(() => {
     if (error) {
@@ -41,7 +41,7 @@ const User = () => {
     <Grid css={{
       cursor: `url(${cursor}), deafult`,
     }}
-      minH={'100vw'}
+      minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Box padding={['0', '16']} overflowX={'auto'} >
@@ -70,7 +70,7 @@ const User = () => {
             <Tbody>
 
               {
-                users && users.map(item => {
+                user && user.map(item => {
                   return <Row updateHandler={updateHandler} deleteHandler={deleteHandler} key={item._id} item={item} loading={loading} />
                 })
               }

@@ -81,7 +81,7 @@ const Course = () => {
       css={{
         cursor: `url(${cursor}), default`,
       }}
-      minH={'100vw'}
+      minH={'100vh'}
       templateColumns={['1fr', '5fr 1fr']}
     >
       <Box padding={['0', '8']} overflowX={'auto'}>
@@ -163,8 +163,8 @@ function Row({ item, courseDetailHandler, deleteHandler,loading }) {
             color="orange.500"
             children="View Lectures"
           />
-          <Button onClick={() => deleteHandler(item._id)} color={'orange.600'}>
-            <RiDeleteBin7Fill />
+          <Button onClick={() => deleteHandler(item._id)} color={'orange.600'} isLoading={loading}>
+            {!loading && <RiDeleteBin7Fill />}
           </Button>
         </HStack>
       </Td>

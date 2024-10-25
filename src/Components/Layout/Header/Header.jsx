@@ -13,10 +13,11 @@ import {
 import { AiOutlineMenu } from 'react-icons/ai';
 import { RiDashboardFill, RiLogoutBoxLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../Redux/actions/user';
 
-const Header = ({isAuthenticated,user}) => {
+const Header = () => {
+  const { isAuthenticated, user } = useSelector(state => state.user);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();

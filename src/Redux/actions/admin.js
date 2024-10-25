@@ -14,7 +14,7 @@ export const createCourse = (formData) => async dispatch => {
          });
          dispatch({ 
             type: 'createCourseSuccess',
-            payload: data.courses,
+            payload: data.message,
         });
     } catch(error) {
         dispatch({
@@ -100,7 +100,7 @@ export const getAllUsers = () => async dispatch => {
          });
          dispatch({ 
             type: 'getAllUsersSuccess',
-            payload: data.users,
+            payload: data.user,
 
         });
     } catch(error) {

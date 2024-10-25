@@ -178,9 +178,9 @@ function VideoCard({
       <Button
         color={'orange.600'}
         onClick={() => deleteButtonhandler(courseId, lectureId)}
-        isLoading={loading} 
+        isLoading={loading}
       >
-        <RiDeleteBin7Line />
+        {!loading && <RiDeleteBin7Line />}
       </Button>
     </Stack>
   );

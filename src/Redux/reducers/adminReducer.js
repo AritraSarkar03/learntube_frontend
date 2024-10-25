@@ -13,7 +13,7 @@ export const adminReducer = createReducer({},
             state.viewsCount = action.payload.viewsCount;
             state.subscriptionPercentage = action.payload.subscriptionPercentage;
             state.viewsPercentage = action.payload.viewsPercentage;
-            state.userPercentage = action.payload.userPercentage;
+            state.usersPercentage = action.payload.usersPercentage;
             state.subscriptionProfit = action.payload.subscriptionProfit;
             state.viewsProfit = action.payload.viewsProfit;
             state.usersProfit = action.payload.usersProfit;
@@ -66,17 +66,6 @@ export const adminReducer = createReducer({},
             state.loading = false;
             state.error = action.payload;
         },
-        // getAllUsersRequest: (state) => {
-        //     state.loading = true;
-        // },
-        // getAllUsersSuccess: (state, action) => {
-        //     state.loading = false;
-        //     state.message = action.payload;
-        // },
-        // getAllUsersFail: (state, action) => {
-        //     state.loading = false;
-        //     state.error = action.payload;
-        // },
         deleteCourseRequest: (state) => {
             state.loading = true;
         },
