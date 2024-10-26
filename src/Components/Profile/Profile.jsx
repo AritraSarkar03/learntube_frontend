@@ -140,7 +140,7 @@ const Profile = ({user}) => {
             <VStack w={'48'} m='2' key={element.course} >
               <HStack><Image boxSize={'full'} objectFit={'contain'} src={element.poster} ></Image></HStack>
            <HStack>
-           <Link to={`/course/${element.course}`}>
+           <Link to={`/courses/${element.course}`}>
 
 <Button variant={'ghost'} colorScheme='red' >Watch Now</Button>
 
