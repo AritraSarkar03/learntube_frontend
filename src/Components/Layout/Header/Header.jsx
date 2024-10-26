@@ -12,20 +12,17 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { RiDashboardFill, RiLogoutBoxLine } from 'react-icons/ri'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/actions/user';
 
 const Header = ({ isAuthenticated, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  
+  const dispatch = useDispatch();  
   const logoutHandler = () => {
     onClose();
     dispatch(logout());
-    navigate('/signin');
   };
 
   const LinkButton = ({ url, title }, onClose) => (
