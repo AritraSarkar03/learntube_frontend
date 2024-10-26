@@ -116,7 +116,7 @@ export const updateUserRole = (id) => async dispatch => {
         dispatch({ 
             type: 'updateUserRoleRequest'
         });
-         const {data} = await axios.get(`${server}/admin/users/${id}`,{}, {
+         const {data} = await axios.put(`${server}/admin/users/${id}`,{}, {
             withCredentials: true,
          });
          dispatch({ 
