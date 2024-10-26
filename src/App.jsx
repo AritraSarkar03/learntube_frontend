@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import Home from './Components/Home/Home'
 import Dashboard from './Components/Admin/Dashboard/Dashboard'
 import Profile from './Components/Profile/Profile';
@@ -30,6 +30,16 @@ import { loadUser } from './Redux/actions/user';
 import { ProtectedRoute } from "protected-route-react"
 import Loader from './Components/Layout/Loader';
 
+export const LoginRedirect = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(-1);
+  }, [navigate]);
+
+  return null;
+};
+
 function App() {
   window.addEventListener('contextmenu', e => {
     e.preventDefault();
@@ -53,6 +63,8 @@ function App() {
     dispatch(loadUser())
   }, [dispatch]);
 
+
+
   return (
     <Router>
       {
@@ -61,7 +73,7 @@ function App() {
             <Header isAuthenticated={isAuthenticated} user={user}/>
             <Routes>
               <Route path='/' element={<Home />} />
-
+              <Route path='/login' element={<LoginRedirect />} />
               <Route path='/profile' element={
                 <ProtectedRoute isAuthenticated={isAuthenticated} redirect="/signin">
                   <Profile user={user} />
