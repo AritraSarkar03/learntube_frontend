@@ -62,7 +62,7 @@ const Courses = () => {
   }, [category,keyword,dispatch,error]);
 
   return (
-    <Container minH={'95vh'} maxW={'container.lg'} paddingY={'10'}>
+    <Container minH={'100vh'} maxW={'container.lg'} paddingY={'10'}>
       <Heading children="All Courses" m={'8'} />
       <Input
         value={keyword}

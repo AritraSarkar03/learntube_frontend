@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Heading, Link, Stack, VStack, Text, Box, HStack } from "@chakra-ui/react";
+import { Button, Heading, Stack, VStack, Text, Box, HStack } from "@chakra-ui/react";
 import './Home.css';
 import { CgYoutube,CgGoogle } from  "react-icons/cg";
 import { SiCoursera, SiUdemy } from  "react-icons/si";
 import { DiAws } from  "react-icons/di";
+import { Link } from 'react-router-dom';
 // import logo from '../../Assets/images/logo.png'
 
 const Home = () => {
