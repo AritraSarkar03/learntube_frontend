@@ -34,7 +34,7 @@ export const LoginRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate(-1);
+    navigate(-2);
   }, [navigate]);
 
   return null;
