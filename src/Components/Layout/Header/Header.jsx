@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { RiDashboardFill, RiLogoutBoxLine } from 'react-icons/ri'
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/actions/user';
 
@@ -20,14 +20,13 @@ const Header = ({ isAuthenticated, user }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
   const logoutHandler = () => {
     onClose();
     dispatch(logout());
+    navigate('/signin');
   };
-
-  if (!isAuthenticated) {
-    return <Navigate to="/signin" replace />;
-  }
 
   const LinkButton = ({ url, title }, onClose) => (
     <Link to={url}>
